@@ -46,6 +46,20 @@ describe Url do
       url.pqs(:baz, nil)
       expect(url.to_s).to eq("https://lvh.me/base/foo:bar?baz=123&boo=456")
     end
+
+    it 'encodes' do
+      url = Url.new '/foo'
+      url.qs[:foo] = 'a/b|c d'
+      expect(url.to_s).to eq("/foo?foo=a%2Fb%7Cc+d")
+    end
+
+    it 'gets locale' do
+      url = Url.new '/fr/foo'
+      expect(url.locale).to eq('fr')
+
+      url = Url.new '/en-UK/foo'
+      expect(url.locale).to eq('en-UK')
+    end
   end
 end
   

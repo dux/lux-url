@@ -39,7 +39,9 @@ class Url
 
     # path qs /foo/bar:baz
     def pqs name, value
-      current.pqs(name, value).relative
+      url = current.pqs(name, value)
+      url.qs name, nil
+      url.relative
     end
 
     # same as force qs but remove value if selected
