@@ -11,16 +11,18 @@ class Url
   OPTS ||= Struct.new(:proto, :port, :subdomain, :domain, :locale, :path, :qs, :qs_hash, :qs_path)
   
   class << self
-    # get current Url
+    VERSION = Pathname.new(__FILE__).join('../../.version').read
+    
+    # get current Url, overload for usage outside Lux
     def current
-      new '/' + Lux.current.request.url.split('/').drop(3).join('/')
+      new Lux.current.request.url
     end
 
     def host
-      ::Url.new(Lux.config.host)
+      current.host
     end
 
-    def force_locale loc
+    def locale loc
       u = current
       u.locale loc
       u.relative
